@@ -30,7 +30,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 class QDataStream;
-struct MessageItem;
+class MessageItem;
 
 // NOTE: values serialized to disk, do not change or reuse
 enum class LLModelTypeV0 { // chat versions 2-5
