@@ -24,6 +24,7 @@
 #include <Qt>
 #include <QtGlobal>
 
+#include <algorithm>
 #include <iterator>
 #include <ranges>
 #include <span>
@@ -32,6 +33,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 namespace ranges = std::ranges;
+namespace views  = std::views;
 
 
 struct PromptAttachment {
@@ -73,7 +75,6 @@ public:
 };
 Q_DECLARE_METATYPE(PromptAttachment)
 
-class ChatItem;
 class MessageItem
 {
     Q_GADGET
@@ -85,8 +86,6 @@ public:
 
     MessageItem(Type type, const QByteArray &content)
         : m_type(type), m_content(content) {}
-    MessageItem(const ChatItem *item);
-    MessageItem() = delete;
 
     Type type() const { return m_type; }
     QByteArray content() const { return m_content; }
@@ -346,6 +345,23 @@ public:
     bool isToolCallError() const
     {
         return toolCallInfo.error != ToolEnums::Error::NoError;
+    }
+
+    MessageItem asMessageItem() const
+    {
+        MessageItem::Type msgType;
+        switch (auto typ = type()) {
+            using enum ChatItem::Type;
+            case System:       msgType = MessageItem::Type::System;       break;
+            case Prompt:       msgType = MessageItem::Type::Prompt;       break;
+            case Response:     msgType = MessageItem::Type::Response;     break;
+            case ToolResponse: msgType = MessageItem::Type::ToolResponse; break;
+            case Text:
+            case ToolCall:
+                throw std::invalid_argument(fmt::format("cannot convert ChatItem type {} to message item", int(typ)));
+        }
+
+        return { msgType, flattenedContent().toUtf8() };
     }
 
 Q_SIGNALS:
@@ -891,9 +907,9 @@ public:
         // A flattened version of the chat item tree used by the backend and jinja
         std::vector<MessageItem> chatItems;
         for (const ChatItem *item : m_chatItems) {
-            if (!item->subItems.empty())
-                chatItems.insert(chatItems.end(), item->subItems.begin(), item->subItems.end());
-            chatItems.push_back(item);
+            chatItems.reserve(chatItems.size() + item->subItems.size() + 1);
+            ranges::copy(item->subItems | views::transform(&ChatItem::asMessageItem), std::back_inserter(chatItems));
+            chatItems.push_back(item->asMessageItem());
         }
         return chatItems;
     }
