@@ -2,6 +2,7 @@
 #define CHATMODEL_H
 
 #include "database.h"
+#include "tool.h"
 #include "toolcallparser.h"
 #include "utils.h"
 #include "xlsxtomd.h"
@@ -27,6 +28,7 @@
 #include <ranges>
 #include <span>
 #include <utility>
+#include <vector>
 
 using namespace Qt::Literals::StringLiterals;
 namespace ranges = std::ranges;

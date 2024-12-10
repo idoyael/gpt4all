@@ -1,9 +1,11 @@
 #ifndef TOOLCALLPARSER_H
 #define TOOLCALLPARSER_H
 
-#include <QString>
-
 #include "tool.h"
+
+#include <QChar>
+#include <QString>
+#include <QPair>
 
 namespace ToolCallConstants
 {

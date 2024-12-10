@@ -1,10 +1,10 @@
 #include "toolmodel.h"
 
-#include <QGlobalStatic>
-#include <QGuiApplication>
-#include <QJsonDocument>
-
 #include "codeinterpreter.h"
+
+#include <QCoreApplication>
+#include <QEvent>
+#include <QGlobalStatic>
 
 class MyToolModel: public ToolModel { };
 Q_GLOBAL_STATIC(MyToolModel, toolModelInstance)

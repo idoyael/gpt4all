@@ -1,6 +1,10 @@
 #include "toolcallparser.h"
 
 #include <QDebug>
+#include <QtGlobal>
+#include <QtLogging>
+
+#include <cstddef>
 
 static const QString ToolCallStart = ToolCallConstants::CodeInterpreterTag;
 static const QString ToolCallEnd = ToolCallConstants::CodeInterpreterEndTag;

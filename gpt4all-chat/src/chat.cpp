@@ -15,6 +15,7 @@
 #include <QJsonValue>
 #include <QLatin1String>
 #include <QMap>
+#include <QRegularExpression>
 #include <QString>
 #include <QVariant>
 #include <Qt>

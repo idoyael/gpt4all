@@ -4,6 +4,12 @@
 #include "tool.h"
 
 #include <QAbstractListModel>
+#include <QByteArray>
+#include <QHash>
+#include <QList>
+#include <QString>
+#include <QVariant>
+#include <QtGlobal>
 
 class ToolModel : public QAbstractListModel
 {

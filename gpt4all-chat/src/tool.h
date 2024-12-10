@@ -1,12 +1,13 @@
 #ifndef TOOL_H
 #define TOOL_H
 
+#include <QList>
 #include <QObject>
-#include <QJsonObject>
+#include <QString>
+#include <QVariant>
+#include <QtGlobal>
 
 #include <jinja2cpp/value.h>
-
-using namespace Qt::Literals::StringLiterals;
 
 namespace ToolEnums
 {

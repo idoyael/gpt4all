@@ -7,6 +7,7 @@
 #include <QJSEngine>
 #include <QObject>
 #include <QString>
+#include <QtGlobal>
 
 class JavaScriptConsoleCapture : public QObject
 {

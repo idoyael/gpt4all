@@ -1,9 +1,9 @@
 #include "codeinterpreter.h"
 
-#include <QDebug>
+#include <QJSValue>
+#include <QStringList>
 #include <QThread>
-
-using namespace Qt::Literals::StringLiterals;
+#include <QVariant>
 
 QString CodeInterpreter::run(const QList<ToolParam> &params, qint64 timeout)
 {

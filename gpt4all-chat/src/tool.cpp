@@ -1,6 +1,8 @@
 #include "tool.h"
 
-#include <QJsonDocument>
+#include <jinja2cpp/value.h>
+
+#include <string>
 
 jinja2::Value Tool::jinjaValue() const
 {
