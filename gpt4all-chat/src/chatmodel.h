@@ -150,18 +150,18 @@ public:
     enum class Type { System, Prompt, Response, Text, ToolCall, ToolResponse };
 
     // tags for constructing ChatItems
-    struct prompt_tag_t { explicit prompt_tag_t() = default; };
-    static inline constexpr prompt_tag_t prompt_tag = prompt_tag_t();
-    struct response_tag_t { explicit response_tag_t() = default; };
-    static inline constexpr response_tag_t response_tag = response_tag_t();
-    struct system_tag_t { explicit system_tag_t() = default; };
-    static inline constexpr system_tag_t system_tag = system_tag_t();
-    struct text_tag_t { explicit text_tag_t() = default; };
-    static inline constexpr text_tag_t text_tag = text_tag_t();
-    struct tool_call_tag_t { explicit tool_call_tag_t() = default; };
-    static inline constexpr tool_call_tag_t tool_call_tag = tool_call_tag_t();
+    struct prompt_tag_t        { explicit prompt_tag_t       () = default; };
+    struct response_tag_t      { explicit response_tag_t     () = default; };
+    struct system_tag_t        { explicit system_tag_t       () = default; };
+    struct text_tag_t          { explicit text_tag_t         () = default; };
+    struct tool_call_tag_t     { explicit tool_call_tag_t    () = default; };
     struct tool_response_tag_t { explicit tool_response_tag_t() = default; };
-    static inline constexpr tool_response_tag_t tool_response_tag = tool_response_tag_t();
+    static inline constexpr prompt_tag_t        prompt_tag        = prompt_tag_t        {};
+    static inline constexpr response_tag_t      response_tag      = response_tag_t      {};
+    static inline constexpr system_tag_t        system_tag        = system_tag_t        {};
+    static inline constexpr text_tag_t          text_tag          = text_tag_t          {};
+    static inline constexpr tool_call_tag_t     tool_call_tag     = tool_call_tag_t     {};
+    static inline constexpr tool_response_tag_t tool_response_tag = tool_response_tag_t {};
 
     // NOTE: system messages are currently never stored in the model or serialized
     ChatItem(QObject *parent, system_tag_t, const QString &value)
