@@ -135,7 +135,7 @@ class ChatItem : public QObject
     // responses
     Q_PROPERTY(bool                isCurrentResponse   MEMBER isCurrentResponse NOTIFY isCurrentResponseChanged)
     Q_PROPERTY(bool                isError             MEMBER isError          )
-    Q_PROPERTY(QList<ChatItem*>    childItems          READ   childItems       )
+    Q_PROPERTY(QList<ChatItem *>   childItems          READ   childItems       )
 
     // toolcall
     Q_PROPERTY(bool                isToolCallError     READ isToolCallError     NOTIFY isTooCallErrorChanged)
@@ -162,8 +162,6 @@ public:
     static inline constexpr tool_call_tag_t tool_call_tag = tool_call_tag_t();
     struct tool_response_tag_t { explicit tool_response_tag_t() = default; };
     static inline constexpr tool_response_tag_t tool_response_tag = tool_response_tag_t();
-
-    ChatItem() = delete;
 
     // NOTE: system messages are currently never stored in the model or serialized
     ChatItem(QObject *parent, system_tag_t, const QString &value)
@@ -296,13 +294,14 @@ public:
         return code + result;
     }
 
-    QList<ChatItem*> childItems() const
+    QList<ChatItem *> childItems() const
     {
         // We currently have leaf nodes at depth 3 with nodes at depth 2 as mere containers we don't
         // care about in GUI
-        QList<ChatItem*> items;
+        QList<ChatItem *> items;
         for (const ChatItem *item : subItems)
-            items << QList<ChatItem*>(item->subItems.begin(), item->subItems.end());
+            items << QList<ChatItem *>(item->subItems.begin(), item->subItems.end());
+        }
         return items;
     }
 
@@ -384,7 +383,7 @@ public:
     bool isCurrentResponse = false;
     bool isError           = false;
     ToolCallInfo toolCallInfo;
-    std::list<ChatItem*> subItems;
+    std::list<ChatItem *> subItems;
 
     // responses (DataLake)
     QString newResponse;
@@ -1224,7 +1223,7 @@ private:
 
 private:
     mutable QMutex m_mutex;
-    QList<ChatItem*> m_chatItems;
+    QList<ChatItem *> m_chatItems;
 };
 
 #endif // CHATMODEL_H
