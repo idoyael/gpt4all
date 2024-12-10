@@ -78,19 +78,19 @@ Q_DECLARE_METATYPE(PromptAttachment)
 class MessageItem
 {
     Q_GADGET
-    Q_PROPERTY(Type type READ type CONSTANT)
-    Q_PROPERTY(QByteArray content READ content CONSTANT)
+    Q_PROPERTY(Type    type    READ type    CONSTANT)
+    Q_PROPERTY(QString content READ content CONSTANT)
 
 public:
     enum class Type { System, Prompt, Response, ToolResponse };
 
-    MessageItem(Type type, const QByteArray &content)
-        : m_type(type), m_content(content) {}
+    MessageItem(Type type, QString content)
+        : m_type(type), m_content(std::move(content)) {}
 
-    Type type() const { return m_type; }
-    QByteArray content() const { return m_content; }
+    Type           type()    const { return m_type;    }
+    const QString &content() const { return m_content; }
 
-    QList<ResultInfo>       sources() const { return m_sources; }
+    QList<ResultInfo>       sources()           const { return m_sources;           }
     QList<PromptAttachment> promptAttachments() const { return m_promptAttachments; }
 
     // used with version 0 Jinja templates
@@ -113,8 +113,8 @@ public:
     }
 
 private:
-    Type m_type;
-    QByteArray m_content;
+    Type                    m_type;
+    QString                 m_content;
     QList<ResultInfo>       m_sources;
     QList<PromptAttachment> m_promptAttachments;
 };
@@ -361,7 +361,7 @@ public:
                 throw std::invalid_argument(fmt::format("cannot convert ChatItem type {} to message item", int(typ)));
         }
 
-        return { msgType, flattenedContent().toUtf8() };
+        return { msgType, flattenedContent() };
     }
 
 Q_SIGNALS:

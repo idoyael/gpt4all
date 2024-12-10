@@ -776,9 +776,9 @@ auto Server::handleChatRequest(const ChatRequest &request)
     for (auto &message : request.messages) {
         using enum ChatRequest::Message::Role;
         switch (message.role) {
-            case System:    messageItems.emplace_back(MessageItem(MessageItem::Type::System, message.content.toUtf8())); break;
-            case User:      messageItems.emplace_back(MessageItem(MessageItem::Type::Prompt, message.content.toUtf8())); break;
-            case Assistant: messageItems.emplace_back(MessageItem(MessageItem::Type::Response, message.content.toUtf8())); break;
+            case System:    messageItems.emplace_back(MessageItem(MessageItem::Type::System, message.content)); break;
+            case User:      messageItems.emplace_back(MessageItem(MessageItem::Type::Prompt, message.content)); break;
+            case Assistant: messageItems.emplace_back(MessageItem(MessageItem::Type::Response, message.content)); break;
         }
     }
     m_chatModel->appendResponseWithHistory(messageItems);
