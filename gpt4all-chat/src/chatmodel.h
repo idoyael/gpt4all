@@ -299,8 +299,9 @@ public:
         // We currently have leaf nodes at depth 3 with nodes at depth 2 as mere containers we don't
         // care about in GUI
         QList<ChatItem *> items;
-        for (const ChatItem *item : subItems)
-            items << QList<ChatItem *>(item->subItems.begin(), item->subItems.end());
+        for (const ChatItem *item : subItems) {
+            items.reserve(items.size() + item->subItems.size());
+            ranges::copy(item->subItems, std::back_inserter(items));
         }
         return items;
     }
