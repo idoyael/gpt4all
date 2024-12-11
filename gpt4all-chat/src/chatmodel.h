@@ -178,8 +178,17 @@ public:
         setParent(parent);
     }
 
-    ChatItem(QObject *parent, response_tag_t, bool isCurrentResponse = true)
-        : QObject(nullptr), name(u"Response: "_s), isCurrentResponse(isCurrentResponse)
+    // A new response, to be filled in
+    ChatItem(QObject *parent, response_tag_t)
+        : QObject(nullptr), name(u"Response: "_s), isCurrentResponse(true)
+    {
+        moveToThread(parent->thread());
+        setParent(parent);
+    }
+
+    // An existing response, from Server
+    ChatItem(QObject *parent, response_tag_t, const QString &value)
+        : QObject(nullptr), name(u"Response: "_s), value(value)
     {
         moveToThread(parent->thread());
         setParent(parent);
@@ -807,7 +816,7 @@ public:
             Q_ASSERT(currentResponse->isCurrentResponse);
 
             // Create a new response container for any text and the tool call
-            ChatItem *newResponse = new ChatItem(this, ChatItem::response_tag, true /*isCurrentResponse*/);
+            ChatItem *newResponse = new ChatItem(this, ChatItem::response_tag);
 
             // Add preceding text if any
             if (!split.first.isEmpty()) {
