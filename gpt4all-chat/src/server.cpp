@@ -772,16 +772,16 @@ auto Server::handleChatRequest(const ChatRequest &request)
     Q_ASSERT(!request.messages.isEmpty());
 
     // adds prompt/response items to GUI
-    std::vector<MessageItem> messageItems;
+    std::vector<MessageInput> messages;
     for (auto &message : request.messages) {
         using enum ChatRequest::Message::Role;
         switch (message.role) {
-            case System:    messageItems.emplace_back(MessageItem(MessageItem::Type::System, message.content)); break;
-            case User:      messageItems.emplace_back(MessageItem(MessageItem::Type::Prompt, message.content)); break;
-            case Assistant: messageItems.emplace_back(MessageItem(MessageItem::Type::Response, message.content)); break;
+            case System:    messages.push_back({ MessageInput::Type::System,   message.content }); break;
+            case User:      messages.push_back({ MessageInput::Type::Prompt,   message.content }); break;
+            case Assistant: messages.push_back({ MessageInput::Type::Response, message.content }); break;
         }
     }
-    m_chatModel->appendResponseWithHistory(messageItems);
+    m_chatModel->appendResponseWithHistory(messages);
 
     // FIXME(jared): taking parameters from the UI inhibits reproducibility of results
     LLModel::PromptContext promptCtx {
